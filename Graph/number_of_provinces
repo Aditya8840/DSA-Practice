@@ -1,0 +1,40 @@
+/*
+Simple traversal
+*/
+
+class Solution {
+public:
+    vector<bool> isVisited;
+    int n;
+
+    void traverse(vector<vector<int>>& isConnected, int start){
+        queue<int> q;
+        q.push(start);
+        isVisited[start] = true;
+        while(q.size() > 0){
+            int res = q.front();
+            q.pop();
+            for(int i = 0; i < n; i++){
+                // cout<<res<<" "<<i<<" "<<isConnected[res][i]<<" ";
+                if(isConnected[res][i] && !isVisited[i]){
+                    isVisited[i] = true;
+                    q.push(i);
+                }
+            }
+        }
+    }
+
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        n = isConnected.size();
+        isVisited.resize(n, false);
+        int res = 0;
+        for(int i = 0; i < n; i++){
+            // cout<<i<<" "<<isVisited[i]<<endl;
+            if(!isVisited[i]){
+                traverse(isConnected, i);
+                res++;
+            }
+        }
+        return res;
+    }
+};
